@@ -31,27 +31,27 @@ def devolver_peliculas():
     return jsonify(peliculas)
 
 
-# @app.route("/peliculas/<id>")
-# def devolver_peliculas(id):
-#     id_int=int(id)
-#     for pelicula in peliculas:
-#         if pelicula['id']==id_int:
-#             return jsonify(pelicula)
-#     return Response("{}", status=HTTPStatus.NOT_FOUND)
+@app.route("/peliculas/<id>")
+def devolver_peliculas(id):
+    id_int=int(id)
+    for pelicula in peliculas:
+        if pelicula['id']==id_int:
+            return jsonify(pelicula)
+    return Response("{}", status=HTTPStatus.NOT_FOUND)
 
 
-# @app.route("/peliculas/delete",methods=["DELETE"])
-# def eliminar_pelicula():
-#     datos=request.get_json()
-#     if "id" in datos:
-#         for pelicula in peliculas:
-#             if pelicula["id"] == datos["id"]:
-#                 print("ENCONTRADO")
-#                 del pelicula  # 'del' es delete
-#                 #print(peliculas)
-#                 return Response(status=HTTPStatus.OK)
-#             else:
-#                 return Response("{}",status=HTTPStatus.BAD_REQUEST)
+@app.route("/peliculas/delete",methods=["DELETE"])
+def eliminar_pelicula():
+    datos=request.get_json()
+    if "id" in datos:
+        for pelicula in peliculas:
+            if pelicula["id"] == datos["id"]:
+                print("ENCONTRADO")
+                del pelicula  # 'del' es delete
+                #print(peliculas)
+                return Response(status=HTTPStatus.OK)
+            else:
+                return Response("{}",status=HTTPStatus.BAD_REQUEST)
 
 #   a partir de aca hacer:
 
