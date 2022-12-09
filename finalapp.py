@@ -94,3 +94,18 @@ def eliminar_pelicula():
 #         return Response(status=HTTPStatus.OK)
 #     else:
 #         return Response("{}",status=HTTPStatus.BAD_REQUEST)
+
+#Devolver la lista de directores presentes en la plataforma.
+def directoresexistentes(a):
+    return a
+     
+resultado=directoresexistentes(['Martin Scorsese','Christopher Nolan','Ridley Scott Keenenel','Justin Lin'])
+print(resultado)
+
+#Devolver la lista de generos presentes en la plataforma.
+
+def tramasdelapelicula(genero):
+    return genero
+     
+generos=(['Ciencia' 'Ficción','Terror','Acción','Suspense','Acción'])
+print(generos)
