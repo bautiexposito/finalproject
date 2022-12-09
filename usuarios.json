@@ -1,0 +1,21 @@
+[
+    {"usuarios":
+        [
+         {
+            "id":1,
+            "usuario":"bautiexposito",
+            "contraseña":"elrayoMACQUEEN"
+         },
+         {
+            "id":2,
+            "usuario":"feligarcia",
+            "contraseña":"forunculo123"
+         },
+         {
+            "id":3,
+            "usuario":"rowoscoff",
+            "contraseña":"BINOMO1"
+         }
+        ]
+    }
+]
