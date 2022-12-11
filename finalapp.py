@@ -12,11 +12,20 @@ with open("biblioteca.json",encoding='utf-8') as biblioteca_json:
     peliculas=json.load(biblioteca_json)
 peliculas=peliculas[0]['peliculas']
 
-#print(peliculas)
-
 with open("usuarios.json",encoding='utf-8') as usuarios_json:
     usuarios=json.load(usuarios_json)
 usuarios=usuarios[0]['usuarios']
+
+
+def generos_imprimir():
+    for pelicula in peliculas:
+        print(pelicula['genero'])
+
+
+def directores_imprimir():
+    for pelicula in peliculas:
+        print(pelicula['directores'])
+
 
 #def imprimir(archivo): 
 
@@ -32,7 +41,7 @@ def devolver_peliculas():
 
 
 @app.route("/peliculas/<id>")
-def devolver_peliculas(id):
+def devolver_pelicula(id):
     id_int=int(id)
     for pelicula in peliculas:
         if pelicula['id']==id_int:
@@ -52,6 +61,7 @@ def eliminar_pelicula():
                 return Response(status=HTTPStatus.OK)
             else:
                 return Response("{}",status=HTTPStatus.BAD_REQUEST)
+
 
 #   a partir de aca hacer:
 
@@ -94,18 +104,3 @@ def eliminar_pelicula():
 #         return Response(status=HTTPStatus.OK)
 #     else:
 #         return Response("{}",status=HTTPStatus.BAD_REQUEST)
-
-#Devolver la lista de directores presentes en la plataforma.
-def directoresexistentes(a):
-    return a
-     
-resultado=directoresexistentes(['Martin Scorsese','Christopher Nolan','Ridley Scott Keenenel','Justin Lin'])
-print(resultado)
-
-#Devolver la lista de generos presentes en la plataforma.
-
-def tramasdelapelicula(genero):
-    return genero
-     
-generos=(['Ciencia' 'Ficción','Terror','Acción','Suspense','Acción'])
-print(generos)

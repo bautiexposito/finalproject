@@ -6,6 +6,7 @@
             "titulo":"Taxi Driver",
             "año":"1977",
             "director":"Martin Scorsese",
+            "genero":"Drama",
             "sinopsis":"Para sobrellevar el insomnio crónico que sufre desde su regreso de Vietnam, Travis Bickle trabaja como taxista nocturno en Nueva York.",
             "link":"https://"
          },
@@ -14,6 +15,7 @@
             "titulo":"Interestelar",
             "año":"2014",
             "director":"Christopher Nolan",
+            "genero":"Ciencia Ficcion",
             "sinopsis":"Un grupo de científicos y exploradores, encabezados por Cooper, se embarcan en un viaje espacial para encontrar un lugar con las condiciones necesarias para reemplazar a la Tierra y comenzar una nueva vida allí. La Tierra está llegando a su fin y este grupo necesita encontrar un planeta más allá de nuestra galaxia que garantice el futuro de la raza humana.",
             "link":"https://"
          },
@@ -22,6 +24,7 @@
             "titulo":"El Gladiador",
             "año":"2000",
             "director":"Ridley Scott",
+            "genero":"Accion",
             "sinopsis":"El general romano Máximo es el soporte más leal del emperador Marco Aurelio, que lo ha conducido de victoria en victoria. Sin embargo, Cómodo, el hijo de Marco Aurelio, está celoso del prestigio de Máximo y aún más del amor que su padre siente por él. Cuando Cómodo llega al poder ordena el arresto del general y su asesinato. Máximo escapa de sus asesinos, pero no puede evitar la muerte de su familia. Entonces se convierte en gladiador para llevar a cabo su venganza..",
             "link":"https://"
          },
@@ -30,6 +33,7 @@
             "titulo":"Scary Movie",
             "año":"2000",
             "director":"Keenen Ivory Wayans",
+            "genero":"Comedia",
             "sinopsis":"En esta parodia de las películas de terror modernas, un año después de atropellar a un hombre y deshacerse del cadáver, un grupo de adolescentes es acechado por un asesino en serie bastante inútil.",
             "link":"https://"
          },
@@ -38,6 +42,7 @@
             "titulo":"Rápidos y Furiosos 9",
             "año":"2021",
             "director":"Justin Lin",
+            "genero":"Accion",
             "sinopsis":"Dom Toretto vive una vida tranquila junto a Letty y su hijo, pero el peligro siempre regresa a su vida. En esta ocasión, el equipo se enfrenta a un complot mundial orquestado por el asesino más temible del mundo: el hermano de Dom.",
             "link":"https://"
          }
