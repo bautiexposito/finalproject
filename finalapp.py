@@ -17,6 +17,23 @@ with open("usuarios.json",encoding='utf-8') as usuarios_json:
 usuarios=usuarios[0]['usuarios']
 
 
+#   log in 
+usuario=input("Usuario: ")
+contraseña=input("Contraseña: ")
+login=False
+
+for u in usuarios:
+    if(u["usuario"]==usuario):
+        for c in usuarios:
+            if(c["contraseña"]==contraseña):
+                login=True
+
+if login==True:  
+    print("Bienvenido!")
+else:  
+    print("Error al iniciar sesion")
+
+
 def generos_imprimir():
     for pelicula in peliculas:
         print(pelicula['genero'])
@@ -32,7 +49,10 @@ def directores_imprimir():
 
 @app.route("/")
 def home():
-    return "Hello, Flask!"
+    mostrar_peliculas=[]
+    for pelicula in peliculas:
+        mostrar_peliculas.append(pelicula['titulo'])
+    return mostrar_peliculas
 
 
 @app.route("/peliculas")
@@ -62,8 +82,6 @@ def eliminar_pelicula():
             else:
                 return Response("{}",status=HTTPStatus.BAD_REQUEST)
 
-
-#   a partir de aca hacer:
 
 # @app.route("/peliculas", methods=["POST"]) #hacer
 # def comprar_entrada():
