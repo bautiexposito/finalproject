@@ -17,23 +17,6 @@ with open("usuarios.json",encoding='utf-8') as usuarios_json:
 usuarios=usuarios[0]['usuarios']
 
 
-#   log in 
-usuario=input("Usuario: ")
-contraseña=input("Contraseña: ")
-login=False
-
-for u in usuarios:
-    if(u["usuario"]==usuario):
-        for c in usuarios:
-            if(c["contraseña"]==contraseña):
-                login=True
-
-if login==True:  
-    print("Bienvenido!")
-else:  
-    print("Error al iniciar sesion")
-
-
 def generos_imprimir():
     for pelicula in peliculas:
         print(pelicula['genero'])
@@ -88,7 +71,7 @@ def eliminar_pelicula():
                 return Response("{}",status=HTTPStatus.BAD_REQUEST)
 
 
-@app.route("/peliculas", methods=["POST"]) #hacer
+@app.route("/peliculas", methods=["POST"]) 
 def comprar_entrada():
     # recibir los datos de los clientes
     datos=request.get_json()
@@ -110,7 +93,7 @@ def comprar_entrada():
         return Response("{}",status=HTTPStatus.BAD_REQUEST)
 
 
-@app.route("/peliculas/actualizar", methods=["PUT"]) #hacer
+@app.route("/peliculas/actualizar", methods=["PUT"]) 
 def modificar_pelicula():
     datos=request.get_json()
     if 'id' in datos:
@@ -127,5 +110,6 @@ def modificar_pelicula():
         return Response(status=HTTPStatus.OK)
     else:
         return Response("{}",status=HTTPStatus.BAD_REQUEST)
+
 
 
