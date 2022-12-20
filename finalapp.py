@@ -17,19 +17,6 @@ with open("usuarios.json",encoding='utf-8') as usuarios_json:
 usuarios=usuarios[0]['usuarios']
 
 
-def generos_imprimir():
-    for pelicula in peliculas:
-        print(pelicula['genero'])
-
-
-def directores_imprimir():
-    for pelicula in peliculas:
-        print(pelicula['directores'])
-
-
-#def imprimir(archivo): 
-
-
 @app.route("/")
 def home():
     mostrar_peliculas=[]
@@ -57,7 +44,44 @@ def devolver_pelicula(id):
     return Response("{}", status=HTTPStatus.NOT_FOUND)
 
 
-@app.route("/peliculas/delete",methods=["DELETE"])
+@app.route("/directores")
+def directores_imprimir():
+    lista=[]
+    for pelicula in peliculas:
+        if pelicula['director'] not in lista:
+            lista.append(pelicula['director'])
+    return jsonify(lista)
+
+
+@app.route("/generos")
+def generos_imprimir():
+    lista=[]
+    for pelicula in peliculas:
+        if pelicula['genero'] not in lista:
+            lista.append(pelicula['genero'])
+    return jsonify(lista)
+
+
+@app.route("/peliculas/imagen")
+def devolver_peliculas_con_imagen():
+    dic={}
+    for pelicula in peliculas: 
+        if "link" in pelicula:
+            dic[pelicula['titulo']]=pelicula['link']
+    return jsonify(dic)
+
+
+@app.route("/peliculas/<director>")
+def devolver_peliculas_director(director):
+    director_string=str(director)
+    lista=[]
+    for pelicula in peliculas:
+        if director_string in pelicula['director']:
+            lista.append(pelicula['titulo'])
+    return jsonify(lista)
+
+
+@app.route("/peliculas/delete/<id>",methods=["DELETE"])
 def eliminar_pelicula():
     datos=request.get_json()
     if "id" in datos:
@@ -112,4 +136,18 @@ def modificar_pelicula():
         return Response("{}",status=HTTPStatus.BAD_REQUEST)
 
 
-
+usuario_privado=False
+@app.route("/login", methods=["GET"])
+def inicio_sesion():
+    intentos=3
+    while intentos>0:
+        user=str(input("Ingrese su usuario: "))
+        password=str(input("Ingrese su contraseña: "))
+        for pelicula in peliculas:
+            if user==pelicula["usuario"] and password==pelicula["contraseña"]:
+                global usuario_privado
+                usuario_privado=True
+                break
+        intentos-=1
+    if intentos==0:
+        return("Error al iniciar sesion, limite de intentos.")
