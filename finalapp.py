@@ -69,9 +69,9 @@ def devolver_peliculas_con_imagen():
         if "link" in pelicula:
             dic[pelicula['titulo']]=pelicula['link']
     return jsonify(dic)
+    
 
-
-@app.route("/peliculas/<director>")
+@app.route("/peliculas/<director>")    #
 def devolver_peliculas_director(director):
     director_string=str(director)
     lista=[]
@@ -81,21 +81,21 @@ def devolver_peliculas_director(director):
     return jsonify(lista)
 
 
-@app.route("/peliculas/delete/<id>",methods=["DELETE"])
-def eliminar_pelicula():
-    datos=request.get_json()
-    if "id" in datos:
-        for pelicula in peliculas:
-            if pelicula["id"] == datos["id"]:
-                print("ENCONTRADO")
-                del pelicula  # 'del' es delete
-                #print(peliculas)
-                return Response(status=HTTPStatus.OK)
-            else:
-                return Response("{}",status=HTTPStatus.BAD_REQUEST)
+@app.route("/peliculas/eliminar/<int:id>",methods=["DELETE"])
+def eliminar_pelicula(id):
+    id_int=int(id)
+    valor=False
+    for pelicula in peliculas:
+        if pelicula['id']==id_int:
+            peliculas.remove(pelicula)
+            valor=True
+    if valor:
+        return Response(status=HTTPStatus.OK)
+    else:  
+        return Response("{}",status=HTTPStatus.BAD_REQUEST)
 
 
-@app.route("/peliculas", methods=["POST"]) 
+@app.route("/peliculas/publicar", methods=["POST"])  
 def comprar_entrada():
     # recibir los datos de los clientes
     datos=request.get_json()
@@ -117,7 +117,7 @@ def comprar_entrada():
         return Response("{}",status=HTTPStatus.BAD_REQUEST)
 
 
-@app.route("/peliculas/actualizar", methods=["PUT"]) 
+@app.route("/peliculas/actualizar", methods=["PUT"])    
 def modificar_pelicula():
     datos=request.get_json()
     if 'id' in datos:
@@ -125,7 +125,7 @@ def modificar_pelicula():
             if pelicula['id']==datos['id']:
                 print('ENCONTRADO')
                 if '' in datos:
-               
+                #
                     return Response("{}",status=HTTPStatus.BAD_REQUEST)
         return Response(status=HTTPStatus.OK)
     else:

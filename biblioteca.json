@@ -8,7 +8,7 @@
             "director":"Martin Scorsese",
             "genero":"Drama",
             "sinopsis":"Para sobrellevar el insomnio crónico que sufre desde su regreso de Vietnam, Travis Bickle trabaja como taxista nocturno en Nueva York.",
-            "link":"https://"
+            "link":"https://pics.filmaffinity.com/Taxi_Driver-173769074-mmed.jpg"
          },
          {
             "id":2,
@@ -17,7 +17,7 @@
             "director":"Christopher Nolan",
             "genero":"Ciencia Ficcion",
             "sinopsis":"Un grupo de científicos y exploradores, encabezados por Cooper, se embarcan en un viaje espacial para encontrar un lugar con las condiciones necesarias para reemplazar a la Tierra y comenzar una nueva vida allí. La Tierra está llegando a su fin y este grupo necesita encontrar un planeta más allá de nuestra galaxia que garantice el futuro de la raza humana.",
-            "link":"https://"
+            "link":"https://es.web.img3.acsta.net/pictures/14/10/02/11/07/341344.jpg"
          },
          {
             "id":3,
@@ -26,7 +26,7 @@
             "director":"Ridley Scott",
             "genero":"Accion",
             "sinopsis":"El general romano Máximo es el soporte más leal del emperador Marco Aurelio, que lo ha conducido de victoria en victoria. Sin embargo, Cómodo, el hijo de Marco Aurelio, está celoso del prestigio de Máximo y aún más del amor que su padre siente por él. Cuando Cómodo llega al poder ordena el arresto del general y su asesinato. Máximo escapa de sus asesinos, pero no puede evitar la muerte de su familia. Entonces se convierte en gladiador para llevar a cabo su venganza..",
-            "link":"https://"
+            "link":"https://www.juanvilar.com/wp-content/uploads/2020/01/Gladiator-portada.jpg"
          },
          {
             "id":4,
@@ -35,7 +35,7 @@
             "director":"Keenen Ivory Wayans",
             "genero":"Comedia",
             "sinopsis":"En esta parodia de las películas de terror modernas, un año después de atropellar a un hombre y deshacerse del cadáver, un grupo de adolescentes es acechado por un asesino en serie bastante inútil.",
-            "link":"https://"
+            "link":"https://es.web.img3.acsta.net/pictures/14/03/06/09/44/283111.jpg"
          },
          {
             "id":5,
@@ -44,7 +44,43 @@
             "director":"Justin Lin",
             "genero":"Accion",
             "sinopsis":"Dom Toretto vive una vida tranquila junto a Letty y su hijo, pero el peligro siempre regresa a su vida. En esta ocasión, el equipo se enfrenta a un complot mundial orquestado por el asesino más temible del mundo: el hermano de Dom.",
-            "link":"https://"
+            "link":"https://www.universalpictures.com.ar/tl_files/content/movies/fast9/posters/01.jpg"
+         },
+         {
+            "id":6,
+            "titulo":"Memento",
+            "año":"2000",
+            "director":"Christopher Nolan",
+            "genero":"Suspenso",
+            "sinopsis":"Leonard es un investigador de una agencia de seguros cuya memoria está irreversiblemente dañada por culpa de un golpe en la cabeza, al intentar evitar el asesinato de su mujer: éste es el último hecho que recuerda del pasado. A causa del golpe, ha perdido la memoria reciente, los hechos cotidianos desaparecen de su mente en unos minutos. Así pues, para investigar y vengar el asesinato de su esposa tiene que recurrir a la ayuda de una cámara instantánea y a las notas tatuadas en su cuerpo.",
+            "link":"https://pics.filmaffinity.com/Memento-523889784-large.jpg"
+         },
+         {
+            "id":7,
+            "titulo":"Pulp Fiction",
+            "año":"1994",
+            "director":"Quentin Tarantino",
+            "genero":"Crimen",
+            "sinopsis":"La vida de un boxeador, dos sicarios, la esposa de un gánster y dos bandidos se entrelaza en una historia de violencia y redención.",
+            "link":"https://es.web.img2.acsta.net/pictures/17/06/12/10/21/182251.jpg"
+         },
+         {
+            "id":8,
+            "titulo":"Kill Bil",
+            "año":"2003",
+            "director":"Quentin Tarantino",
+            "genero":"Accion",
+            "sinopsis":"Mamba Negra es una asesina que, el día de su boda, es atacada por los miembros de la banda de su jefe, Bill. Sin embargo consigue sobrevivir, aunque queda en coma. Cinco años después despierta, con un deseo de venganza.",
+            "link":"https://es.web.img3.acsta.net/pictures/14/05/07/12/38/160972.jpg"
+         },
+         {
+            "id":9,
+            "titulo":"El origen",
+            "año":"2010",
+            "director":"Christopher Nolan",
+            "genero":"Ciencia Ficcion",
+            "sinopsis":"Dom Cobb (Leonardo DiCaprio) es un ladrón con una extraña habilidad para entrar a los sueños de la gente y robarle los secretos de sus subconscientes. Su habilidad lo ha convertido en un atractivo en el mundo del espionaje corporativo, pero ha tenido un gran costo en la gente que ama. Cobb tiene la oportunidad de ser perdonado cuando recibe una tarea imposible: plantar una idea en la mente de una persona. Si tiene éxito, será el crimen perfecto, pero un enemigo se anticipa a sus movimientos.",
+            "link":"https://es.web.img3.acsta.net/medias/nmedia/18/72/41/74/20198901.jpg"
          }
         ]
     }
