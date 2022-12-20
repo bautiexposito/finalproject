@@ -124,12 +124,8 @@ def modificar_pelicula():
         for pelicula in peliculas:
             if pelicula['id']==datos['id']:
                 print('ENCONTRADO')
-                if 'sector' in datos:
-                    print('SECTOR')
-                    pelicula['recital']['ticket']['sector']=datos['sector']
-                elif 'cantidad' in datos:
-                    pelicula['recital']['ticket']['cantidad']=datos['cantidad']
-                else:
+                if '' in datos:
+               
                     return Response("{}",status=HTTPStatus.BAD_REQUEST)
         return Response(status=HTTPStatus.OK)
     else:
