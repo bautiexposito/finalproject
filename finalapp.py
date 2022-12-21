@@ -4,6 +4,7 @@
 import json
 from flask import Flask, jsonify, Response, request
 from http import HTTPStatus
+import requests
 #   $env:FLASK_APP="finalapp.py"
 #   python -m flask run
 
@@ -22,6 +23,46 @@ with open("directores.json",encoding='utf-8') as directores_json:
 directores=directores[0]['directores']
 
 
+def menu():
+    while True:
+        print("           MENU             ")
+        print("----------------------------")
+        print("1: Mostrar todas las peliculas")
+        print("2: Mostrar pelicula especifica")
+        print("3: Mostrar ultimas peliculas agregadas")
+        print("4: Mostrar peliculas con imagenes")
+        print("5: Mostrar directores")
+        print("6: Mostrar peliculas de un director especifico")
+        print("7: Mostrar usuarios")
+        print("8: Mostrar generos")
+        print("9: Salir")
+        opcion=int(input("Ingresar opcion: "))
+        if (opcion==1):
+            print(requests.get("http://127.0.0.1:5000/peliculas"))
+        elif (opcion==2):
+            id=int(input("Ingresar id de la pelicula: "))
+            print(requests.get("http://127.0.0.1:5000/peliculas/",id))
+        elif (opcion==3):
+            print(requests.get("http://127.0.0.1:5000"))
+        elif (opcion==4):
+            print(requests.get("http://127.0.0.1:5000/peliculas/imagen"))
+        elif (opcion==5):
+            print(requests.get("http://127.0.0.1:5000/directores"))
+        elif (opcion==6): ###
+            id=int(input("Ingresar id del director: "))
+            print(requests.get("http://127.0.0.1:5000/peliculas/",id))
+        elif (opcion==7):
+            print(requests.get("http://127.0.0.1:5000/usuarios"))
+        elif (opcion==8):
+            print(requests.get("http://127.0.0.1:5000/generos"))
+        elif (opcion==9):
+            print("Exit!")
+            break
+        else:
+            print("Error al ingresar opcion")
+#menu()
+
+
 @app.route("/")     # Muestra las ultimas 10 peliculas agregadas
 def home():
     mostrar_peliculas=[]
@@ -37,7 +78,10 @@ def devolver_usuarios():
 
 @app.route("/peliculas")   #    Muestra todas las peliculas
 def devolver_peliculas():
-    return jsonify(peliculas)
+    mostrar_peliculas=[]
+    for pelicula in peliculas:
+        mostrar_peliculas.append(pelicula['titulo'])
+    return mostrar_peliculas
 
 
 @app.route("/peliculas/<id>")   # Muestra las peliculas por id 
@@ -105,39 +149,15 @@ def eliminar_pelicula(id):
 
 @app.route("/peliculas/publicar", methods=["POST"])  
 def comprar_entrada():
-    # recibir los datos de los clientes
     datos=request.get_json()
-    id=peliculas[-1]['id']
-    id=id+1
-    if ("nombre" in datos and "apellido" in datos):
-        if ("titulo" in datos):
-            peliculas.append({
-                "id":10,
-                "titulo":"Avatar 2",
-                "año":"2022",
-                "director":"James Cameron",
-                "sinopsis":"Jake Sully y Ney'tiri han formado una familia y hacen todo lo posible por permanecer juntos. Sin embargo, deben abandonar su hogar y explorar las regiones de Pandora cuando una antigua amenaza reaparece.",
-                "link":"https://"
-            })
-        #imprimir(peliculas)
-        return Response(datos["nombre"],status=HTTPStatus.OK)
-    else:
-        return Response("{}",status=HTTPStatus.BAD_REQUEST)
+    peliculas.append(datos)
+    return jsonify(peliculas)
 
 
-@app.route("/peliculas/actualizar", methods=["PUT"])    
+@app.route("/peliculas/actualizar", methods=["PUT"])    ##
 def modificar_pelicula():
     datos=request.get_json()
-    if 'id' in datos:
-        for pelicula in peliculas:
-            if pelicula['id']==datos['id']:
-                print('ENCONTRADO')
-                if '' in datos:
-                #
-                    return Response("{}",status=HTTPStatus.BAD_REQUEST)
-        return Response(status=HTTPStatus.OK)
-    else:
-        return Response("{}",status=HTTPStatus.BAD_REQUEST)
+    return jsonify(datos)
 
 
 usuario_privado=False
