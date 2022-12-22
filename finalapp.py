@@ -5,6 +5,7 @@ import json
 from flask import Flask, jsonify, Response, request
 from http import HTTPStatus
 import requests
+import threading
 #   $env:FLASK_APP="finalapp.py"
 #   python -m flask run
 
@@ -31,7 +32,10 @@ def home():
 
 @app.route("/usuarios")     # Muestra todos los usuarios
 def devolver_usuarios():
-    return jsonify(usuarios)
+    lista=[]
+    for usuario in usuarios:
+        lista.append(usuario['usuario'])
+    return jsonify(lista)
 
 
 @app.route("/peliculas")   #    Muestra todas las peliculas
@@ -39,7 +43,7 @@ def devolver_peliculas():
     mostrar_peliculas=[]
     for pelicula in peliculas:
         mostrar_peliculas.append(pelicula['titulo'])
-    return mostrar_peliculas
+    return jsonify(mostrar_peliculas)
 
 
 @app.route("/peliculas/<id>")   # Muestra las peliculas por id 
@@ -167,8 +171,8 @@ def inicio_sesion():
     while intentos>0:
         user=str(input("Ingrese su usuario: "))
         password=str(input("Ingrese su contraseña: "))
-        for pelicula in peliculas:
-            if user==pelicula["usuario"] and password==pelicula["contraseña"]:
+        for usuario in usuarios:
+            if user==usuario["usuario"] and password==usuario["contrasenia"]:
                 global usuario_privado
                 usuario_privado=True
                 break
@@ -177,41 +181,102 @@ def inicio_sesion():
         return("Error al iniciar sesion, limite de intentos.")
 
 
+login=False
 def menu():
+    print("")
     while True:
         print("           MENU             ")
         print("----------------------------")
+        print("0: Iniciar/cerrar sesion")#
         print("1: Mostrar todas las peliculas")
-        print("2: Mostrar pelicula especifica")
+        print("2: Mostrar pelicula especifica")#
         print("3: Mostrar ultimas peliculas agregadas")
         print("4: Mostrar peliculas con imagenes")
         print("5: Mostrar directores")
-        print("6: Mostrar peliculas de un director especifico")
-        print("7: Mostrar usuarios")
+        print("6: Mostrar peliculas de un director especifico")#
+        print("7: Mostrar usuarios")#
         print("8: Mostrar generos")
-        print("9: Salir")
+        print("9: Eliminar pelicula")#
+        print("10: Publicar pelicula")#
+        print("11: Modificar pelicula")#
+        print("12: Salir")
         opcion=int(input("Ingresar opcion: "))
+        print("")
+
+        if (opcion==0):
+            intentos=3
+            while intentos>0:
+                user=input("Ingresar usuario: ")
+                password=input('Ingresar contraseña: ')
+                for usuario in usuarios:
+                    if(user==usuario['usuario'] and password==usuario['contrasenia']):
+                        login=True
+                        print("Inicio de sesion exitoso!")
+                        break
+                intentos-=1
+            if intentos==0:
+                print("Error al iniciar sesion, limite de intentos.")
+
         if (opcion==1):
-            print(requests.get("http://127.0.0.1:5000/peliculas"))
-        elif (opcion==2):
+            r=(requests.get("http://127.0.0.1:5000/peliculas"))
+            r=dict(r)
+            for key,value in r.items():
+                print(key," : ",value)
+
+        elif (opcion==2):   
             id=int(input("Ingresar id de la pelicula: "))
-            print(requests.get("http://127.0.0.1:5000/peliculas/",id))
+            r=(requests.get("http://127.0.0.1:5000/peliculas/"+id))
+            print(r.text)
+
         elif (opcion==3):
-            print(requests.get("http://127.0.0.1:5000"))
+            r=(requests.get("http://127.0.0.1:5000"))
+            print(r.text)
+
         elif (opcion==4):
-            print(requests.get("http://127.0.0.1:5000/peliculas/imagen"))
+            r=(requests.get("http://127.0.0.1:5000/peliculas/imagen"))
+            print(r.text)
+
         elif (opcion==5):
-            print(requests.get("http://127.0.0.1:5000/directores"))
-        elif (opcion==6): ###
+            r=(requests.get("http://127.0.0.1:5000/directores"))
+            print(r.text)
+
+        elif (opcion==6): 
             id=int(input("Ingresar id del director: "))
-            print(requests.get("http://127.0.0.1:5000/peliculas/",id))
+            r=(requests.get("http://127.0.0.1:5000/peliculas/"+id))
+            print(r.text)
+
         elif (opcion==7):
-            print(requests.get("http://127.0.0.1:5000/usuarios"))
+            r=(requests.get("http://127.0.0.1:5000/usuarios"))
+            print(r.text)
+
         elif (opcion==8):
-            print(requests.get("http://127.0.0.1:5000/generos"))
+            r=(requests.get("http://127.0.0.1:5000/generos"))
+            print(r.text)
+
         elif (opcion==9):
-            print("Exit!")
+            if(login==False):
+                print("Permiso denegado, inicie sesion.")
+            else:
+                print("")
+
+        elif (opcion==10):
+            if(login==False):
+                print("Permiso denegado, inicie sesion.")
+            else:
+                print("")
+
+        elif (opcion==11):
+            if(login==False):
+                print("Permiso denegado, inicie sesion.")
+            else:
+                print("")
+
+        elif (opcion==12):
+            print("Exit!\n")
             break
         else:
             print("Error al ingresar opcion")
-#menu()
+        print("")
+
+m = threading.Timer(1, menu)    # Ejecutar el menu 1 segundo despues para darle tiempo a crear local server
+m.start()
