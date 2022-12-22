@@ -124,7 +124,9 @@ def eliminar_pelicula(id):
         if pelicula['id']==id_int:
             peliculas.remove(pelicula)
             valor=True
-    if valor:
+    if valor==True:
+        # with open("biblioteca.json",'w',encoding='utf-8') as biblioteca_json:   # Lo eliminamos del json
+        #     json.dump(peliculas,biblioteca_json)
         return Response("Eliminado",status=HTTPStatus.OK)
     else:  
         return Response("Solicitud incorrecta",status=HTTPStatus.BAD_REQUEST)
@@ -142,6 +144,8 @@ def comprar_entrada():
             "id":id,
             "director":datos['director']
             })
+        # with open("directores.json",'w',encoding='utf-8') as directores_json:
+        #     json.dump(directores,directores_json)
 
     if len(ultimas_peliculas_agregadas)<10:                 # Agrega las ultimas 10 peliculas a la pagina home
         ultimas_peliculas_agregadas.append(datos['titulo'])     
@@ -151,11 +155,10 @@ def comprar_entrada():
                 ultimas_peliculas_agregadas[i]=ultimas_peliculas_agregadas[i-1]
             ultimas_peliculas_agregadas[0]=datos['titulo'] 
 
-    # with open("biblioteca.json",'w',encoding='utf-8') as biblioteca_json:
-    #     json.dump(peliculas,biblioteca_json)
-
     if (datos['id'] not in peliculas):      # Post
         peliculas.append(datos)
+        # with open("biblioteca.json",'w',encoding='utf-8') as biblioteca_json:   # Lo agregamos al json
+        #     json.dump(peliculas,biblioteca_json)
         return Response("OK",status=HTTPStatus.OK)
     else:
         return Response("Solicitud incorrecta",status=HTTPStatus.BAD_REQUEST)
@@ -187,11 +190,16 @@ def modificar_pelicula():
                     pelicula['sinopsis']=datos["sinopsis"]
                 if "link" in datos:
                     pelicula['link']=datos["link"]
+                
+                # with open("biblioteca.json",'w',encoding='utf-8') as biblioteca_json:   # Modificamos el json
+                #     json.dump(peliculas,biblioteca_json)
+
                 return Response("OK",status=HTTPStatus.OK)
-    else:
-        return Response("Solicitud incorrecta",status=HTTPStatus.BAD_REQUEST)
+            else:
+                return Response("ID no encontrado",status=HTTPStatus.NOT_FOUND)
 
 
+global login
 login=False
 def menu():
     print("")
@@ -216,15 +224,19 @@ def menu():
 
         if (opcion==0):
             intentos=3
+            login=False
             while intentos>0:
                 user=input("Ingresar usuario: ")
                 password=input('Ingresar contraseña: ')
                 for usuario in usuarios:
-                    if(user==usuario['usuario'] and password==usuario['contrasenia']):
+                    if(user in usuario and password in usuario):
                         login=True
                         print("Inicio de sesion exitoso!")
                         break
-                intentos-=1
+                if(login==True):
+                    break
+                else:
+                    intentos-=1
             if intentos==0:
                 print("Error al iniciar sesion, limite de intentos.")
 
@@ -284,10 +296,10 @@ def menu():
 
         elif (opcion==12):
             print("Exit!\n")
-            break
+            exit()
         else:
             print("Error al ingresar opcion")
         print("")
 
 m = threading.Timer(1, menu)    # Ejecutar el menu 1 segundo despues para darle tiempo a crear local server
-#m.start()
+m.start()
