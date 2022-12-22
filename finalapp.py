@@ -147,8 +147,12 @@ def comprar_entrada():
         ultimas_peliculas_agregadas.append(datos['titulo'])     
     else:
         for i in range(9,-1,-1):
-            ultimas_peliculas_agregadas[i]=ultimas_peliculas_agregadas[i-1]
-        ultimas_peliculas_agregadas[0]=datos['titulo'] 
+            if i != 0:
+                ultimas_peliculas_agregadas[i]=ultimas_peliculas_agregadas[i-1]
+            ultimas_peliculas_agregadas[0]=datos['titulo'] 
+
+    # with open("biblioteca.json",'w',encoding='utf-8') as biblioteca_json:
+    #     json.dump(peliculas,biblioteca_json)
 
     if (datos['id'] not in peliculas):      # Post
         peliculas.append(datos)
@@ -183,7 +187,7 @@ def modificar_pelicula():
                     pelicula['sinopsis']=datos["sinopsis"]
                 if "link" in datos:
                     pelicula['link']=datos["link"]
-            return Response("OK",status=HTTPStatus.OK)
+                return Response("OK",status=HTTPStatus.OK)
     else:
         return Response("Solicitud incorrecta",status=HTTPStatus.BAD_REQUEST)
 
@@ -286,4 +290,4 @@ def menu():
         print("")
 
 m = threading.Timer(1, menu)    # Ejecutar el menu 1 segundo despues para darle tiempo a crear local server
-m.start()
+#m.start()
