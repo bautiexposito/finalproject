@@ -27,7 +27,10 @@ directores=directores[0]['directores']
 ultimas_peliculas_agregadas=[]
 @app.route("/")     # Muestra las ultimas 10 peliculas agregadas
 def home():
-    return jsonify(ultimas_peliculas_agregadas)
+    if len(ultimas_peliculas_agregadas)>0:
+        return jsonify(ultimas_peliculas_agregadas)
+    else:
+        return Response("No encontrado", status=HTTPStatus.NOT_FOUND)
 
 
 @app.route("/usuarios")     # Muestra todos los usuarios
@@ -35,7 +38,10 @@ def devolver_usuarios():
     lista=[]
     for usuario in usuarios:
         lista.append(usuario['usuario'])
-    return jsonify(lista)
+    if len(lista)>0:
+        return jsonify(lista)
+    else:
+        return Response("No encontrado", status=HTTPStatus.NOT_FOUND)
 
 
 @app.route("/peliculas")   #    Muestra todas las peliculas
@@ -43,7 +49,10 @@ def devolver_peliculas():
     mostrar_peliculas=[]
     for pelicula in peliculas:
         mostrar_peliculas.append(pelicula['titulo'])
-    return jsonify(mostrar_peliculas)
+    if len(mostrar_peliculas)>0:
+        return jsonify(mostrar_peliculas)
+    else:
+        return Response("No encontrado", status=HTTPStatus.NOT_FOUND)    
 
 
 @app.route("/peliculas/<id>")   # Muestra las peliculas por id 
@@ -52,7 +61,7 @@ def devolver_pelicula(id):
     for pelicula in peliculas:
         if pelicula['id']==id_int:
             return jsonify(pelicula)
-    return Response("{}", status=HTTPStatus.NOT_FOUND)
+    return Response("No encontrado", status=HTTPStatus.NOT_FOUND)
 
 
 @app.route("/directores")   # Muestra todos los directores
@@ -61,7 +70,10 @@ def directores_imprimir():
     for pelicula in peliculas:
         if pelicula['director'] not in lista:
             lista.append(pelicula['director'])
-    return jsonify(lista)
+    if len(lista)>0:
+        return jsonify(lista)
+    else:
+        return Response("No encontrado", status=HTTPStatus.NOT_FOUND)
 
 
 @app.route("/generos")      # Muestra todos los generos
@@ -70,7 +82,10 @@ def generos_imprimir():
     for pelicula in peliculas:
         if pelicula['genero'] not in lista:
             lista.append(pelicula['genero'])
-    return jsonify(lista)
+    if len(lista)>0:
+        return jsonify(lista)
+    else:
+        return Response("No encontrado", status=HTTPStatus.NOT_FOUND)
 
 
 @app.route("/peliculas/imagen")     # Muestra las peliculas que tienen imagen
@@ -79,10 +94,13 @@ def devolver_peliculas_con_imagen():
     for pelicula in peliculas: 
         if "link" in pelicula:
             dic[pelicula['titulo']]=pelicula['link']
-    return jsonify(dic)
+    if len(dic)>0:
+        return jsonify(dic)
+    else:
+        return Response("No encontrado", status=HTTPStatus.NOT_FOUND)
     
 
-@app.route("/peliculas/director/<id>")      # Muestra todas las peliculas cargadas de un director especifico por id  
+@app.route("/directores/<id>")      # Muestra todas las peliculas cargadas de un director especifico por id  
 def devolver_peliculas_director(id):
     id_int=int(id)
     lista=[]
@@ -92,7 +110,10 @@ def devolver_peliculas_director(id):
     for pelicula in peliculas:
         if pelicula['director']==variable:
             lista.append(pelicula['titulo'])
-    return jsonify(lista)
+    if len(lista)>0:
+        return jsonify(lista)
+    else:
+        return Response("No encontrado", status=HTTPStatus.NOT_FOUND)
 
 
 @app.route("/peliculas/eliminar/<int:id>",methods=["DELETE"])      # Elimina una pelicula por id 
@@ -104,15 +125,14 @@ def eliminar_pelicula(id):
             peliculas.remove(pelicula)
             valor=True
     if valor:
-        return Response(status=HTTPStatus.OK)
+        return Response("Eliminado",status=HTTPStatus.OK)
     else:  
-        return Response("{}",status=HTTPStatus.BAD_REQUEST)
+        return Response("Solicitud incorrecta",status=HTTPStatus.BAD_REQUEST)
 
 
 @app.route("/peliculas/publicar", methods=["POST"])     # Publica nueva pelicula 
 def comprar_entrada():                                  
     datos=request.get_json()                            
-    peliculas.append(datos)
 
     for director in directores:         # Si es un director nuevo lo agrega a directores.json
         id=director['id']
@@ -130,7 +150,11 @@ def comprar_entrada():
             ultimas_peliculas_agregadas[i]=ultimas_peliculas_agregadas[i-1]
         ultimas_peliculas_agregadas[0]=datos['titulo'] 
 
-    return jsonify(datos)
+    if (datos['id'] not in peliculas):      # Post
+        peliculas.append(datos)
+        return Response("OK",status=HTTPStatus.OK)
+    else:
+        return Response("Solicitud incorrecta",status=HTTPStatus.BAD_REQUEST)
 
 
 @app.route("/peliculas/actualizar", methods=["PUT"])    # Modifica pelicula especifica segun id 
@@ -159,26 +183,9 @@ def modificar_pelicula():
                     pelicula['sinopsis']=datos["sinopsis"]
                 if "link" in datos:
                     pelicula['link']=datos["link"]
-            return Response(status=HTTPStatus.OK)
+            return Response("OK",status=HTTPStatus.OK)
     else:
-        return Response("{}",status=HTTPStatus.BAD_REQUEST)
-
-
-usuario_privado=False
-@app.route("/login", methods=["GET"])      # Inicio de sesion 
-def inicio_sesion():
-    intentos=3
-    while intentos>0:
-        user=str(input("Ingrese su usuario: "))
-        password=str(input("Ingrese su contraseña: "))
-        for usuario in usuarios:
-            if user==usuario["usuario"] and password==usuario["contrasenia"]:
-                global usuario_privado
-                usuario_privado=True
-                break
-        intentos-=1
-    if intentos==0:
-        return("Error al iniciar sesion, limite de intentos.")
+        return Response("Solicitud incorrecta",status=HTTPStatus.BAD_REQUEST)
 
 
 login=False
