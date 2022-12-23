@@ -23,6 +23,7 @@ with open("directores.json",encoding='utf-8') as directores_json:
     directores=json.load(directores_json)
 directores=directores[0]['directores']
 
+print("Bienvenido a Stremio!\n")
 
 ultimas_peliculas_agregadas=[]
 @app.route("/")     # Muestra las ultimas 10 peliculas agregadas
@@ -195,8 +196,8 @@ def modificar_pelicula():
                 #     json.dump(peliculas,biblioteca_json)
 
                 return Response("OK",status=HTTPStatus.OK)
-            else:
-                return Response("ID no encontrado",status=HTTPStatus.NOT_FOUND)
+    else:
+        return Response("ID no encontrado",status=HTTPStatus.NOT_FOUND)
 
 
 login=False
@@ -327,12 +328,50 @@ def menu():
                 for pelicula in peliculas:
                     if id==pelicula['id']:
                         valor=True
+                        dic_pelicula=pelicula
                 if valor==False:
                     print("ID no encontrado")
                 else:
                     respuesta=input("¿Modificar el titulo?")
-                    #if
-                    r=(requests.put("http://127.0.0.1:5000/peliculas/actualizar"))
+                    if(respuesta=='si' or respuesta=='SI'):
+                        titulo=input("Ingresar titulo: ")
+                    else:
+                        titulo=dic_pelicula['titulo']
+                    respuesta=input("¿Modificar el año?")
+                    if(respuesta=='si' or respuesta=='SI'):
+                        anio=input("Ingresar año: ")
+                    else:
+                        anio=dic_pelicula['anio']
+                    respuesta=input("¿Modificar el director?")
+                    if(respuesta=='si' or respuesta=='SI'):
+                        director=input("Ingresar director: ")
+                    else:
+                        director=dic_pelicula['director']
+                    respuesta=input("¿Modificar el genero?")
+                    if(respuesta=='si' or respuesta=='SI'):
+                        genero=input("Ingresar genero: ")
+                    else:
+                        genero=dic_pelicula['genero']
+                    respuesta=input("¿Modificar la sinopsis?")
+                    if(respuesta=='si' or respuesta=='SI'):
+                        sinopsis=input("Ingresar sinopsis: ")
+                    else:
+                        sinopsis=dic_pelicula['sinopsis']
+                    respuesta=input("¿Modificar el link de la imagen?")
+                    if(respuesta=='si' or respuesta=='SI'):
+                        link=input("Ingresar link: ")
+                    else:
+                        link=dic_pelicula['link']
+                    j={
+                        "id":id,
+                        "titulo":titulo,
+                        "anio":anio,
+                        "director":director,
+                        "genero":genero,
+                        "sinopsis":sinopsis,
+                        "link":link
+                    }
+                    r=(requests.put("http://127.0.0.1:5000/peliculas/actualizar",json=j))
                     print(r.content)
 
         elif (opcion==12):

@@ -11,3 +11,7 @@ Crear un programa en python para mantener una lista de películas recomendadas p
 - Flask
 - Postman 
 - GitHub
+
+# Documentacion en Postman
+
+Link: https://documenter.getpostman.com/view/24383801/2s8Z6vYDtq
