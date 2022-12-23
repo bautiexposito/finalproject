@@ -199,23 +199,22 @@ def modificar_pelicula():
                 return Response("ID no encontrado",status=HTTPStatus.NOT_FOUND)
 
 
-global login
 login=False
 def menu():
     print("")
     while True:
         print("           MENU             ")
         print("----------------------------")
-        print("0: Iniciar/cerrar sesion")#
+        print("0: Iniciar/cerrar sesion")
         print("1: Mostrar todas las peliculas")
-        print("2: Mostrar pelicula especifica")#
+        print("2: Mostrar pelicula especifica")
         print("3: Mostrar ultimas peliculas agregadas")
         print("4: Mostrar peliculas con imagenes")
         print("5: Mostrar directores")
-        print("6: Mostrar peliculas de un director especifico")#
-        print("7: Mostrar usuarios")#
+        print("6: Mostrar peliculas de un director especifico")
+        print("7: Mostrar usuarios")
         print("8: Mostrar generos")
-        print("9: Eliminar pelicula")#
+        print("9: Eliminar pelicula")
         print("10: Publicar pelicula")#
         print("11: Modificar pelicula")#
         print("12: Salir")
@@ -223,80 +222,123 @@ def menu():
         print("")
 
         if (opcion==0):
-            intentos=3
-            login=False
-            while intentos>0:
+            global login
+            if(login==False):
                 user=input("Ingresar usuario: ")
                 password=input('Ingresar contraseña: ')
                 for usuario in usuarios:
-                    if(user in usuario and password in usuario):
+                    if(user in usuario['usuario'] and password in usuario['contrasenia']):
                         login=True
-                        print("Inicio de sesion exitoso!")
-                        break
-                if(login==True):
-                    break
+                if (login==True):
+                    print("Inicio de sesion exitoso")
                 else:
-                    intentos-=1
-            if intentos==0:
-                print("Error al iniciar sesion, limite de intentos.")
+                    print("Error al iniciar sesion")
+            else:
+                login=False
+                print("Sesion cerrada")
 
-        if (opcion==1):
+        elif (opcion==1):
             r=(requests.get("http://127.0.0.1:5000/peliculas"))
-            r=dict(r)
+            r=r.json()
+            for i in r:
+                print(i)
+
+        elif (opcion==2):   
+            id=input("Ingresar id de la pelicula: ")
+            r=(requests.get("http://127.0.0.1:5000/peliculas/"+id))
+            r=r.json()
             for key,value in r.items():
                 print(key," : ",value)
 
-        elif (opcion==2):   
-            id=int(input("Ingresar id de la pelicula: "))
-            r=(requests.get("http://127.0.0.1:5000/peliculas/"+id))
-            print(r.text)
-
         elif (opcion==3):
             r=(requests.get("http://127.0.0.1:5000"))
-            print(r.text)
+            r=r.json()
+            for i in r:
+                print(i)
 
         elif (opcion==4):
             r=(requests.get("http://127.0.0.1:5000/peliculas/imagen"))
-            print(r.text)
+            r=r.json()
+            for key,value in r.items():
+                print(key," : ",value)
 
         elif (opcion==5):
             r=(requests.get("http://127.0.0.1:5000/directores"))
-            print(r.text)
+            r=r.json()
+            for i in r:
+                print(i)
 
         elif (opcion==6): 
-            id=int(input("Ingresar id del director: "))
-            r=(requests.get("http://127.0.0.1:5000/peliculas/"+id))
-            print(r.text)
+            id=input("Ingresar id del director: ")
+            r=(requests.get("http://127.0.0.1:5000/directores/"+id))
+            r=r.json()
+            for i in r:
+                print(i)
 
         elif (opcion==7):
             r=(requests.get("http://127.0.0.1:5000/usuarios"))
-            print(r.text)
+            r=r.json()
+            for i in r:
+                print(i)
 
         elif (opcion==8):
             r=(requests.get("http://127.0.0.1:5000/generos"))
-            print(r.text)
+            r=r.json()
+            for i in r:
+                print(i)
 
         elif (opcion==9):
             if(login==False):
                 print("Permiso denegado, inicie sesion.")
             else:
-                print("")
+                id=input("Ingresar id de la pelicula: ")
+                r=(requests.delete("http://127.0.0.1:5000/peliculas/eliminar/"+id))
+                print(r.content)
 
         elif (opcion==10):
             if(login==False):
                 print("Permiso denegado, inicie sesion.")
             else:
-                print("")
+                id=int(input("Ingresar id: "))
+                titulo=input("Titulo: ")
+                anio=input("Año: ")
+                director=input("Director: ")
+                genero=input("Genero: ")
+                sinopsis=input("Sinopsis: ")
+                link=input("Link imagen/portada: ")
+                j={
+                    "id":id,
+                    "titulo":titulo,
+                    "anio":anio,
+                    "director":director,
+                    "genero":genero,
+                    "sinopsis":sinopsis,
+                    "link":link
+                }
+                r=(requests.post("http://127.0.0.1:5000/peliculas/publicar",json=j))
+                print(r.content)
 
         elif (opcion==11):
             if(login==False):
                 print("Permiso denegado, inicie sesion.")
             else:
-                print("")
+                id=int(input("Ingresar id de la pelicula: "))
+                valor=False
+                for pelicula in peliculas:
+                    if id==pelicula['id']:
+                        valor=True
+                if valor==False:
+                    print("ID no encontrado")
+                else:
+                    respuesta=input("¿Modificar el titulo?")
+                    #if
+                    r=(requests.put("http://127.0.0.1:5000/peliculas/actualizar"))
+                    print(r.content)
 
         elif (opcion==12):
             print("Exit!\n")
             exit()
+
         else:
             print("Error al ingresar opcion")
         print("")
